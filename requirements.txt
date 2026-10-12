@@ -1,0 +1,19 @@
+# Python 3.10
+
+# --- 核心依赖（已在当前环境验证版本） ---
+numpy==1.26.4
+gym==0.26.2
+pandas==2.2.3
+matplotlib==3.5.3
+
+# PyTorch: 本地验证版本为 2.3.1+cu118 (CUDA 11.8)。
+# 带 +cu118 的本地构建需从 PyTorch 官方源安装, 例如:
+#   pip install torch==2.3.1 --index-url https://download.pytorch.org/whl/cu118
+# 若只用 CPU, 直接 pip install torch==2.3.1 即可。
+torch==2.3.1
+
+# --- 可选 / 运行时依赖 ---
+# visdom: 训练过程可视化, 仅当 config.json 的 train_paras["viz"]=true 时需要。
+visdom
+# pynvml: test.py 用于监控 GPU 显存 (pynvml.nvmlInit 等)。发行包名也可能是 nvidia-ml-py。
+pynvml
