@@ -171,6 +171,7 @@ def main():
     print("total_spend_time: ", time.time() - start)
 
 def schedule(env, model, memories, flag_sample=False):
+    # 对一个环境(可能含多份算例副本)跑完整调度, 返回 makespan 与求解耗时
     # Get state and completion signal
     state = env.state
     dones = env.done_batch
@@ -180,6 +181,7 @@ def schedule(env, model, memories, flag_sample=False):
     while ~done:
         i += 1
         with torch.no_grad():
+            # flag_sample 决定 DRL-S(采样)/DRL-G(贪心); 测试不写 memory
             actions = model.policy_old.act(state, memories, dones, flag_sample=flag_sample, flag_train=False)
         state, rewards, dones = env.step(actions)  # environment transit
         done = dones.all()
@@ -187,7 +189,7 @@ def schedule(env, model, memories, flag_sample=False):
     # print("spend_time: ", spend_time)
 
     # Verify the solution
-    gantt_result = env.validate_gantt()[0]
+    gantt_result = env.validate_gantt()[0]  # 校验方案可行性
     if not gantt_result:
         print("Scheduling Error！！！！！！")
     return copy.deepcopy(env.makespan_batch), spend_time

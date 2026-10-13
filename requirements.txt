@@ -2,7 +2,9 @@
 
 # --- 核心依赖（已在当前环境验证版本） ---
 numpy==1.26.4
-gym==0.26.2
+# gym 固定 0.25.2: 0.26+ 默认启用 PassiveEnvChecker/OrderEnforcing 等强制 wrapper,
+# 与本项目(构造即就绪、step 返回 3 元组)不兼容; 0.21 又无法在新 setuptools 下构建。
+gym==0.25.2
 pandas==2.2.3
 matplotlib==3.5.3
 

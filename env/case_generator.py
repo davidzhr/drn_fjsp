@@ -30,24 +30,28 @@ class CaseGenerator:
         Generate FJSP instance
         :param idx: The instance number
         '''
+        # 随机生成一个 FJSP 算例, 输出与 .fjs 文件同格式的文本行
         self.num_jobs = self.job_init
-        if not self.flag_same_opes:
+        if not self.flag_same_opes:  # 若各作业工序数不固定, 则随机
             self.nums_ope = [random.randint(self.opes_per_job_min, self.opes_per_job_max) for _ in range(self.num_jobs)]
-        self.num_opes = sum(self.nums_ope)
+        self.num_opes = sum(self.nums_ope)  # 工序总数
+        # 每个工序可选机器数(随机)
         self.nums_option = [random.randint(self.mas_per_ope_min, self.mas_per_ope_max) for _ in range(self.num_opes)]
-        self.num_options = sum(self.nums_option)
-        self.ope_ma = []
+        self.num_options = sum(self.nums_option)  # (工序,机器)可加工对总数
+        self.ope_ma = []  # 每个工序可选的机器编号列表(拉平)
         for val in self.nums_option:
-            self.ope_ma = self.ope_ma + sorted(random.sample(range(1, self.num_mas+1), val))
-        self.proc_time = []
+            self.ope_ma = self.ope_ma + sorted(random.sample(range(1, self.num_mas+1), val))  # 随机抽 val 台机器
+        self.proc_time = []  # 每个(工序,机器)对的加工时间(拉平)
+        # 每个工序的平均加工时间(随机)
         self.proc_times_mean = [random.randint(self.proctime_per_ope_min, self.proctime_per_ope_max) for _ in range(self.num_opes)]
         for i in range(len(self.nums_option)):
+            # 在均值附近 ±proctime_dev 波动范围内取加工时间
             low_bound = max(self.proctime_per_ope_min,round(self.proc_times_mean[i]*(1-self.proctime_dev)))
             high_bound = min(self.proctime_per_ope_max,round(self.proc_times_mean[i]*(1+self.proctime_dev)))
             proc_time_ope = [random.randint(low_bound, high_bound) for _ in range(self.nums_option[i])]
             self.proc_time = self.proc_time + proc_time_ope
-        self.num_ope_biass = [sum(self.nums_ope[0:i]) for i in range(self.num_jobs)]
-        self.num_ma_biass = [sum(self.nums_option[0:i]) for i in range(self.num_opes)]
+        self.num_ope_biass = [sum(self.nums_ope[0:i]) for i in range(self.num_jobs)]  # 每作业首工序偏移
+        self.num_ma_biass = [sum(self.nums_option[0:i]) for i in range(self.num_opes)]  # 每工序在 ope_ma/proc_time 中的偏移
         line0 = '{0}\t{1}\t{2}\n'.format(self.num_jobs, self.num_mas, self.num_options / self.num_opes)
         lines = []
         lines_doc = []

@@ -23,3 +23,9 @@ results/
 # 操作系统杂项
 .DS_Store
 Thumbs.db
+
+# python 相关的
+*.pyc
+
+# log related
+train_run.log

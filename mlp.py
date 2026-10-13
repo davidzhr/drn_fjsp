@@ -6,6 +6,7 @@ import torch.nn.functional as F
 
 
 ###MLP with lienar output
+# 通用多层感知机(relu+batchnorm), num_layers=1 时退化为线性模型
 class MLP(nn.Module):
     def __init__(self, num_layers, input_dim, hidden_dim, output_dim):
         '''
@@ -52,6 +53,7 @@ class MLP(nn.Module):
             return self.linears[self.num_layers - 1](h)
 
 
+# Actor 网络: 对每个候选 O-M 动作打分(tanh 激活, 无 batchnorm)
 class MLPActor(nn.Module):
     def __init__(self, num_layers, input_dim, hidden_dim, output_dim):
         '''
@@ -105,6 +107,7 @@ class MLPActor(nn.Module):
             return self.linears[self.num_layers - 1](h)
 
 
+# Critic 网络: 对池化后的全局表示估计状态价值(tanh 激活, 输出标量)
 class MLPCritic(nn.Module):
     def __init__(self, num_layers, input_dim, hidden_dim, output_dim):
         '''
