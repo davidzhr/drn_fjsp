@@ -1,0 +1,25 @@
+# 虚拟环境
+venv/
+.venv/
+env.bak/
+
+# Python 缓存与编译产物
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# IDE / 编辑器配置
+.idea/
+.vscode/
+
+# 训练 / 测试产物
+save/
+results/
+
+# 操作系统杂项
+.DS_Store
+Thumbs.db
