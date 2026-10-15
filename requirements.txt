@@ -16,6 +16,6 @@ torch==2.3.1
 
 # --- 可选 / 运行时依赖 ---
 # visdom: 训练过程可视化, 仅当 config.json 的 train_paras["viz"]=true 时需要。
-visdom
+# visdom
 # pynvml: test.py 用于监控 GPU 显存 (pynvml.nvmlInit 等)。发行包名也可能是 nvidia-ml-py。
 pynvml
